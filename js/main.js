@@ -4,6 +4,13 @@
   const startBtn = document.getElementById('start');
   const caption = document.getElementById('caption');
 
+  class Quiz {
+
+    constructor(index) {
+      this.index = index;
+    }
+  }
+
   startBtn.addEventListener('click', () => {
     caption.textContent = '取得中';
     fetch('https://opentdb.com/api.php?amount=10')
