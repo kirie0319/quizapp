@@ -4,6 +4,8 @@
   const startBtn = document.getElementById('start');
   const caption = document.getElementById('caption');
   const quizData = 'https://opentdb.com/api.php?amount=10';
+  const content = document.getElementById('content');
+  const ganre = document.getElementById('ganre');
 
   class Quiz {
     constructor(quizData) {
@@ -13,9 +15,8 @@
     getQuizCategory(index) {
       return this._quizzes[index - 1].category;
     }
-    resetQuizResults() {
-      this._quizzes.questions =  '';
-
+    resetQuizDate(index) {
+      return this._quizzes[index - 1].question;
     }
   }
 
@@ -25,10 +26,16 @@
     // .then((response) => response.text())
     // .then((text) => console.log(text))
     // .catch((error) => console.log(error));
+    async function callApi(ganre, content, index) {
+      const response = await fetch('https://opentdb.com/api.php?amount=10');
+      const quizData = await response.json();
+      console.log(quizData);
+      let Quiz1 = new Quiz(quizData);
+      ganre.textContent = Quiz1.getQuizCategory(index);
+      // content.textContent = Quiz1.resetQuizDate(index);
+    }
 
-    const response = await fetch('https://opentdb.com/api.php?amount=10');
-    const quizData = await response.json();
-    console.log(quizData);
+    callApi(ganre, content);
 
 
     // await fetch('https://opentdb.com/api.php?amount=10', {
