@@ -29,7 +29,7 @@
   }
   startBtn.addEventListener('click', () => {
     caption.textContent = '取得中';
-    callApi(ganre);
+    callApi(ganre, index);
 
   });
 }
