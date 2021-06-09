@@ -19,17 +19,23 @@
       return this._quizzes[index - 1].question;
     }
   }
-  async function callApi(ganre, index) {
+  async function callApi() {
     const response = await fetch('https://opentdb.com/api.php?amount=10');
-    const quizData = await response.json();
-    console.log(quizData);
-    let Quiz1 = new Quiz(quizData);
-    ganre.textContent = Quiz1.getQuizCategory(index);
-    // content.textContent = Quiz1.resetQuizDate(index);
+    const quizDatas = await response.json();
+    console.log(quizDatas);
+    displayQuiz(quizDatas, ganre);
+  }
+
+  async function displayQuiz(quizDatas, ganre) {
+    quizDatas.foreach((quizData, ganre, index) =>{
+      let Quiz1 = new Quiz(quizData);
+      ganre.textContent = Quiz1.getQuizCategory(index);
+      // content.textContent = Quiz1.resetQuizDate(index);
+    }); 
   }
   startBtn.addEventListener('click', () => {
     caption.textContent = '取得中';
-    callApi(ganre, index);
+    callApi();
 
   });
 }
