@@ -15,15 +15,24 @@
     getQuizCategory(index) {
       return this._quizzes[index - 1].category;
     }
-    resetQuizDate(index) {
+    getQuizQuestion(index) {
       return this._quizzes[index - 1].question;
+    }
+    getQuizDifficulty(index) {
+      return this._quizzes[index - 1].difficulty;
+    }
+    getQuizCorrect_answer(index) {
+      return this._quizzes[index - 1].correct_answer;
+    }
+    getQuizIncorrect_answers(index) {
+      return this._quizzes[index - 1].incorrect_answers;
     }
   }
   async function callApi() {
     const response = await fetch('https://opentdb.com/api.php?amount=10');
     const quizDatas = await response.json();
     console.log(quizDatas);
-    displayQuiz(quizDatas, ganre);
+    // displayQuiz(quizDatas, ganre);
   }
 
   async function displayQuiz(quizDatas, ganre) {
