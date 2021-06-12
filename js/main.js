@@ -33,6 +33,9 @@
     const quizDatas = await response.json();
     console.log(quizDatas);
     // displayQuiz(quizDatas, ganre);
+    quizDatas.forEach((quizData) => {
+      console.log(quizData);
+    });
   }
 
   async function displayQuiz(quizDatas, ganre) {
