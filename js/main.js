@@ -28,20 +28,22 @@
       return this._quizzes[index - 1].incorrect_answers;
     }
   }
+
   async function callApi() {
     const response = await fetch('https://opentdb.com/api.php?amount=10');
-    const quizDatas = await response.json();
-    console.log(quizDatas);
+    const json = await response.json();
+    console.log(json);
+    const quizDatas = await json.results;
     // displayQuiz(quizDatas, ganre);
-    quizDatas.forEach((quizData) => {
+    quizDatas.forEach((quizData, index) => {
       console.log(quizData);
+      let Quiz1 = new Quiz(quizData);
+      ganre.textContent = Quiz1.getQuizCategory(index);
     });
   }
 
   async function displayQuiz(quizDatas, ganre) {
     quizDatas.foreach((quizData, ganre, index) =>{
-      let Quiz1 = new Quiz(quizData);
-      ganre.textContent = Quiz1.getQuizCategory(index);
       // content.textContent = Quiz1.resetQuizDate(index);
     }); 
   }
