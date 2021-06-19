@@ -9,7 +9,7 @@
   
   class Quiz {
     constructor(quizData) {
-      this._quizzes = quizData.results;
+      this._quizzes = quizData;
       this._correctAnswersNum = 0;
     }
     getQuizCategory(index) {
