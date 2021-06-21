@@ -9,23 +9,23 @@
   
   class Quiz {
     constructor(quizData) {
-      this._quizzes = quizData;
+      this._quizz = quizData;
       this._correctAnswersNum = 0;
     }
     getQuizCategory(index) {
-      return this._quizzes[index - 1].category;
+      return this._quizz[index - 1].category;
     }
     getQuizQuestion(index) {
-      return this._quizzes[index - 1].question;
+      return this._quizz[index - 1].question;
     }
     getQuizDifficulty(index) {
-      return this._quizzes[index - 1].difficulty;
+      return this._quizz[index - 1].difficulty;
     }
     getQuizCorrect_answer(index) {
-      return this._quizzes[index - 1].correct_answer;
+      return this._quizz[index - 1].correct_answer;
     }
     getQuizIncorrect_answers(index) {
-      return this._quizzes[index - 1].incorrect_answers;
+      return this._quizz[index - 1].incorrect_answers;
     }
   }
 
