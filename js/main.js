@@ -15,8 +15,8 @@
       this._quizz = quizData;
       this._correctAnswersNum = 0;
     }
-    getQuizCategory(index) {
-      return this._quizz[index].category;
+    getQuizCategory() {
+      return this._quizz.category;
     }
     getQuizQuestion(index) {
       return this._quizz[index - 1].question;
@@ -38,11 +38,11 @@
     const json = await response.json();
     console.log(json);
     const quizDatas = await json.results;
-    let Quiz1 = new Quiz(quizDatas);
     for (let index = 0; index < quizDatas.length; index++) {
-      let foo = Quiz1.getQuizCategory(index);
+      let Quiz1 = new Quiz(quizDatas);
+      let foo = [Quiz1.getQuizCategory()];
       end.addEventListener('click', () => {
-        console.log(foo);
+        console.log(foo[0]);
       })
     }
     // displayQuiz(quizDatas);
@@ -57,7 +57,7 @@
       const ganre_p = document.createElement('p');
       console.log(quizData);
       let Quiz1 = new Quiz(quizData);
-      category = Quiz1.getQuizCategory(index);
+      category = Quiz1.getQuizCategory();
       ganre_p.textContent = category;
       ganre.appendChild(ganre_p);
 
