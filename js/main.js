@@ -5,6 +5,9 @@
   const caption = document.getElementById('caption');
   const content = document.getElementById('content');
   const ganre = document.getElementById('ganre');
+  let category = '';
+
+  const end = document.getElementById('end');
 
   
   class Quiz {
@@ -13,7 +16,7 @@
       this._correctAnswersNum = 0;
     }
     getQuizCategory(index) {
-      return this._quizz.category;
+      return this._quizz[index].category;
     }
     getQuizQuestion(index) {
       return this._quizz[index - 1].question;
@@ -35,14 +38,15 @@
     const json = await response.json();
     console.log(json);
     const quizDatas = await json.results;
-    displayQuiz(quizDatas);
+    let Quiz1 = new Quiz(quizDatas);
+    for (let index = 0; index < quizDatas.length; index++) {
+      let foo = Quiz1.getQuizCategory(index);
+      end.addEventListener('click', () => {
+        console.log(foo);
+      })
+    }
+    // displayQuiz(quizDatas);
     return quizDatas;
-    // displayQuiz(quizDatas, ganre);
-    // quizDatas.forEach((quizData, index) => {
-    //   console.log(quizData);
-    //   let Quiz1 = new Quiz(quizData);
-    //   ganre.textContent = Quiz1.getQuizCategory(index);
-    // });
   }
 
   async function displayQuiz(quizDatas) {
@@ -53,16 +57,13 @@
       const ganre_p = document.createElement('p');
       console.log(quizData);
       let Quiz1 = new Quiz(quizData);
-      ganre_p.textContent = Quiz1.getQuizCategory(index);
+      category = Quiz1.getQuizCategory(index);
+      ganre_p.textContent = category;
       ganre.appendChild(ganre_p);
 
     }
-    // quizDatas.forEach((quizData, index) => {
-    // });
   }
   startBtn.addEventListener('click', () => {
-    // caption.textContent = '取得中';
     callApi();
-
   });
 }
