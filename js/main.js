@@ -4,31 +4,117 @@
   const startBtn = document.getElementById('start');
   const caption = document.getElementById('caption');
   const content = document.getElementById('content');
-  const ganre = document.getElementById('ganre');
-  let category = '';
+  const option = document.getElementById('option');
 
-  const end = document.getElementById('end');
-
+  let quiz;
+  let quizIndex = 0;
   
   class Quiz {
-    constructor(quizData) {
-      this._quizz = quizData;
+    constructor(quizDatas) {
+      this._quizz = quizDatas;
       this._correctAnswersNum = 0;
     }
-    getQuizCategory() {
-      return this._quizz.category;
+
+    endQuiz() {
+
+      while (content.firstChild) {
+        content.removeChild(content.firstChild);
+      }
+
+      caption.textContent = `あなたの正答数は${this._correctAnswersNum}です！！`
+
+      const hrElement3 = document.createElement('hr');
+      content.appendChild(hrElement3);
+
+      const endSentence = document.createElement('p');
+      endSentence.textContent = '再度チャレンジしたい場合は以下をクリック！！';
+      content.appendChild(endSentence);
+
+      const hrElement4 = document.createElement('hr');
+      content.appendChild(hrElement4);
+
+      const endButton = document.createElement('button');
+      endButton.textContent = 'ホームに戻る';
+      option.appendChild(endButton);
+
     }
-    getQuizQuestion(index) {
-      return this._quizz[index - 1].question;
-    }
-    getQuizDifficulty(index) {
-      return this._quizz[index - 1].difficulty;
-    }
-    getQuizCorrect_answer(index) {
-      return this._quizz[index - 1].correct_answer;
-    }
-    getQuizIncorrect_answers(index) {
-      return this._quizz[index - 1].incorrect_answers;
+    
+    displayQuiz(index) {
+
+      if (quizIndex === 10) {
+        console.log('end');
+      }
+
+      while (content.firstChild) {
+        content.removeChild(content.firstChild);
+      }
+
+      caption.textContent = `問題${index + 1}`;
+
+      const quizGanre = document.createElement('h3');
+      quizGanre.style.margin = '0px';
+      quizGanre.textContent = `[ジャンル] ${unescape(this._quizz[index].category)}`;
+      content.appendChild(quizGanre);
+
+      const quizDifficulty = document.createElement('h3');
+      quizDifficulty.style.margin = '0px';
+      quizDifficulty.textContent = `[難易度] ${unescape(this._quizz[index].difficulty)}`;
+      content.appendChild(quizDifficulty);
+
+      const hrElement1 = document.createElement('hr');
+      content.appendChild(hrElement1);
+      
+      const question = document.createElement('p');
+      question.textContent = unescape(this._quizz[index].question);
+      content.appendChild(question);
+      
+      const hrElement2 = document.createElement('hr');
+      content.appendChild(hrElement2);
+      
+      const answerButtonArray = [];
+
+      const correctAnswerButton = document.createElement('button');
+      correctAnswerButton.textContent = unescape(this._quizz[index].correct_answer);
+      correctAnswerButton.addEventListener('click', () => {
+        if (quizIndex === 10) {
+          this.endQuiz();
+        } else {
+          quizIndex++;
+          this._correctAnswersNum++;
+          this.displayQuiz(quizIndex);
+        }
+      });
+      answerButtonArray.push(correctAnswerButton);
+
+      this._quizz[index].incorrect_answers.forEach((incorrectAnswer) => {
+        const incorrectAnswerButton = document.createElement('button');
+        incorrectAnswerButton.textContent = unescape(incorrectAnswer);
+        incorrectAnswerButton.addEventListener('click', () => {
+          if (quizIndex === 10) {
+            this.endQuiz();
+          } else {
+            quizIndex++;
+            this.displayQuiz(quizIndex);
+          }
+        });
+        answerButtonArray.push(incorrectAnswerButton);
+      });
+
+      let answerLength = answerButtonArray.length;
+
+      while (answerLength) {
+        let i = Math.floor(Math.random() * answerLength);
+        let str = answerButtonArray[--answerLength];
+        answerButtonArray[answerLength] = answerButtonArray[i];
+        answerButtonArray[i] = str;
+      }
+
+      answerButtonArray.forEach(answerButton => {
+        content.appendChild(answerButton);
+        const brElement = document.createElement('br');
+        content.appendChild(brElement);
+      });
+
     }
   }
 
@@ -38,32 +124,12 @@
     const json = await response.json();
     console.log(json);
     const quizDatas = await json.results;
-    for (let index = 0; index < quizDatas.length; index++) {
-      let Quiz1 = new Quiz(quizDatas);
-      let foo = [Quiz1.getQuizCategory()];
-      end.addEventListener('click', () => {
-        console.log(foo[0]);
-      })
-    }
-    // displayQuiz(quizDatas);
-    return quizDatas;
+    quiz =  new Quiz(quizDatas);
+    quiz.displayQuiz(quizIndex);
   }
 
-  async function displayQuiz(quizDatas) {
-    for (let index = 0; index < quizDatas.length; index++) {
-      const quizData = quizDatas[index];
-      // ganre.innerHTML = '';
-      caption.textContent = index + 1;
-      const ganre_p = document.createElement('p');
-      console.log(quizData);
-      let Quiz1 = new Quiz(quizData);
-      category = Quiz1.getQuizCategory();
-      ganre_p.textContent = category;
-      ganre.appendChild(ganre_p);
-
-    }
-  }
-  startBtn.addEventListener('click', () => {
-    callApi();
+  startBtn.addEventListener('click', async () => {
+    await callApi();
+    option.innerHTML = '';
   });
 }
