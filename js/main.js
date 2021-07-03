@@ -35,6 +35,9 @@
 
       const endButton = document.createElement('button');
       endButton.textContent = 'ホームに戻る';
+      endButton.addEventListener('click', () => {
+        window.location.href = 'index.html';
+      });
       option.appendChild(endButton);
 
     }
