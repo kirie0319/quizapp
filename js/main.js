@@ -5,10 +5,10 @@
   const caption = document.getElementById('caption');
   const content = document.getElementById('content');
   const option = document.getElementById('option');
-
+  
   let quiz;
   let quizIndex = 0;
-  
+
   class Quiz {
     constructor(quizDatas) {
       this._quizz = quizDatas;
@@ -21,7 +21,7 @@
         content.removeChild(content.firstChild);
       }
 
-      caption.textContent = `あなたの正答数は${this._correctAnswersNum}です！！`
+      caption.textContent = `あなたの正答数は${this._correctAnswersNum}です！！`;
 
       const hrElement3 = document.createElement('hr');
       content.appendChild(hrElement3);
@@ -40,10 +40,6 @@
     }
     
     displayQuiz(index) {
-
-      if (quizIndex === 10) {
-        console.log('end');
-      }
 
       while (content.firstChild) {
         content.removeChild(content.firstChild);
@@ -76,7 +72,7 @@
       const correctAnswerButton = document.createElement('button');
       correctAnswerButton.textContent = unescape(this._quizz[index].correct_answer);
       correctAnswerButton.addEventListener('click', () => {
-        if (quizIndex === 10) {
+        if (quizIndex === 9) {
           this.endQuiz();
         } else {
           quizIndex++;
@@ -90,7 +86,7 @@
         const incorrectAnswerButton = document.createElement('button');
         incorrectAnswerButton.textContent = unescape(incorrectAnswer);
         incorrectAnswerButton.addEventListener('click', () => {
-          if (quizIndex === 10) {
+          if (quizIndex === 9) {
             this.endQuiz();
           } else {
             quizIndex++;
@@ -127,6 +123,7 @@
     quiz =  new Quiz(quizDatas);
     quiz.displayQuiz(quizIndex);
   }
+
 
   startBtn.addEventListener('click', async () => {
     await callApi();
